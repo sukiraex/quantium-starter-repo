@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -104,10 +106,10 @@ def make_figure(
     return fig, conclusion
 
 
-CSV_PATH = "sales_data.csv"
+CSV_PATH = Path(__file__).resolve().parent / "sales_data.csv"
 CUTOFF_DATE = pd.Timestamp("2021-01-15")
 
-sales_df = load_sales_data(CSV_PATH)
+sales_df = load_sales_data(str(CSV_PATH))
 
 initial_daily = daily_sales_for_region(sales_df, "all")
 fig, conclusion_text = make_figure(initial_daily, CUTOFF_DATE, region_label="All regions")
@@ -178,6 +180,7 @@ app.layout = html.Div(
                     children=[
                         html.H1(
                             "Soul Foods Pink Morsel Sales Visualiser",
+                            id="app-header",
                             style=header_style,
                         ),
                         html.P(
